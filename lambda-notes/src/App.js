@@ -4,6 +4,8 @@ import axios from 'axios';
 import './reset.css';
 import './App.css';
 import { Route, Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { getNotes } from './actions/actions';
 
 import NoteList from './components/NotesList';
 import CreateNote from './components/CreateNote';
@@ -19,79 +21,39 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.getNotes();
+    this.props.getNotes();
     // setInterval(() => this.getNotes(), 500);
   }
 
-  getNotes = () => {
-    axios
-      .get('https://fe-notes.herokuapp.com/note/get/all')
-      .then(response => {
-        // console.log(response.data);
-        this.setState({ notes: response.data });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-
-  deleteNote = id => {
-    // console.log(`${id}`, ' deleted');
-    axios
-      .delete(`https://fe-notes.herokuapp.com/note/delete/${id}`)
-      .then(res => {
-        // console.log(res);
-        this.getNotes();
-      })
-      .catch(err => {
-        console.log('error deleting');
-      });
-  };
-
   render() {
+    console.log('On app.js ', this.props.notes);
     return (
       <div className="App">
         <aside>
           <h1>Lambda Notes</h1>
-          <Link to="/" onClick={this.getNotes}>
+          <Link to="/" onClick={this.props.getNotes}>
             <div className="asideBtn">View Your Notes</div>
           </Link>
-          <Link to="/create">
+          <Link to="/create" onClick={this.props.getNotes}>
             <div className="asideBtn">+ Create New Note</div>
           </Link>
         </aside>
-        <Route
-          path="/"
-          exact
-          render={props => <NoteList {...props} notes={this.state.notes} />}
-        />
-        <Route
-          path="/create"
-          render={props => <CreateNote {...props} getNotes={this.getNotes} />}
-        />
-        <Route
-          path="/view/:id"
-          render={props => (
-            <ViewNote
-              {...props}
-              notes={this.state.notes}
-              deleteNote={this.deleteNote}
-            />
-          )}
-        />
-        <Route
-          path="/edit/:id"
-          render={props => (
-            <EditNote
-              {...props}
-              notes={this.state.notes}
-              getNotes={this.getNotes}
-            />
-          )}
-        />
+        <Route path="/" exact component={NoteList} />
+        <Route path="/create" component={CreateNote} />
+        <Route path="/view/:id" component={ViewNote} />
+        <Route path="/edit/:id" component={EditNote} />
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    notes: state.notes
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { getNotes }
+)(App);

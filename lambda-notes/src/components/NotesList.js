@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+import { connect } from 'react-redux';
+import { getNotes } from '../actions/actions';
+
 class NoteList extends Component {
   constructor(props) {
     super(props);
+  }
+
+  componentDidMount() {
+    this.props.getNotes();
   }
 
   truncateString = (str, num) => {
@@ -18,6 +25,7 @@ class NoteList extends Component {
 
   render() {
     // console.log('props ', this.props.notes);
+    // console.log('NoteList ', this.props.notes);
     return (
       <div className="pageWrapper">
         <h1>Your Notes:</h1>
@@ -27,19 +35,29 @@ class NoteList extends Component {
             const body = this.truncateString(note.textBody, 210);
             // console.log(body);
             return (
-              <Link to={`/view/${note._id}`} key={note._id} className="note">
+              <Link
+                to={`/view/${note._id}`}
+                key={note._id}
+                className="note"
+                onClick={this.props.getNotes}
+              >
                 <p className="noteTitle">{note.title}</p>
                 <hr />
                 <p className="noteBody">{body}</p>
-                {/* <p className="noteBody">{note.textBody}</p> */}
               </Link>
             );
           })}
         </div>
       </div>
-      // return <div>Hello World!</div>;
     );
   }
 }
 
-export default NoteList;
+const mapStateToProps = state => {
+  return { notes: state.notes };
+};
+
+export default connect(
+  mapStateToProps,
+  { getNotes }
+)(NoteList);

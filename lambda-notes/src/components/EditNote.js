@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { getNotes, editNote } from '../actions/actions';
 
 class EditNote extends Component {
   constructor(props) {
@@ -36,13 +38,8 @@ class EditNote extends Component {
       textBody: this.state.body
     };
     console.log(note);
-    axios
-      .put(`https://fe-notes.herokuapp.com/note/edit/${id}`, note)
-      .then(res => {
-        console.log(res);
-        this.setState({ title: '', body: '', noteEdited: true });
-      })
-      .catch(() => alert('Error editing note'));
+    this.setState({ noteEdited: true });
+    this.props.editNote(id, note);
   };
 
   render() {
@@ -77,4 +74,11 @@ class EditNote extends Component {
   }
 }
 
-export default EditNote;
+const mapStateToProps = state => {
+  return { notes: state.notes };
+};
+
+export default connect(
+  mapStateToProps,
+  { getNotes, editNote }
+)(EditNote);

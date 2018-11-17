@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Modal, ModalBody } from 'reactstrap';
 import { Link, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { getNotes, deleteNote } from '../actions/actions';
 
 class ViewNote extends Component {
   constructor(props) {
@@ -14,6 +16,10 @@ class ViewNote extends Component {
     // this.toggle = this.toggle.bind(this);
     this.changeBackdrop = this.changeBackdrop.bind(this);
   }
+
+  // componentDidMount() {
+  //   this.props.getNotes();
+  // }
 
   toggle = () => {
     this.setState({
@@ -36,20 +42,26 @@ class ViewNote extends Component {
   };
 
   render() {
-    // console.log(this.props.notes);
-    console.log(this.props.match.params.id);
+    console.log('on view notes ', this.props.notes);
+    // console.log(this.props.match.params.id);
     if (this.state.toList) {
+      this.props.getNotes();
       return <Redirect to="/" />;
     }
     return (
       <div className="pageWrapper">
         <div className="actionButtons">
-          <Link to={`/edit/${this.props.match.params.id}`}>edit</Link>
+          <Link
+            to={`/edit/${this.props.match.params.id}`}
+            onClick={this.props.getNotes}
+          >
+            edit
+          </Link>
           <a onClick={this.toggle}>delete</a>
         </div>
         {this.props.notes.map(note => {
           if (this.props.match.params.id === note._id) {
-            console.log(note.title);
+            // console.log(note.title);
             return (
               <div key={note._id}>
                 <p className="viewNoteTitle">{note.title}</p>
@@ -82,4 +94,11 @@ class ViewNote extends Component {
   }
 }
 
-export default ViewNote;
+const mapStateToProps = state => {
+  return { notes: state.notes };
+};
+
+export default connect(
+  mapStateToProps,
+  { getNotes, deleteNote }
+)(ViewNote);

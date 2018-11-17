@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 
+import { connect } from 'react-redux';
+import { getNotes, createNote } from '../actions/actions';
+
 class CreateNote extends Component {
   constructor(props) {
     super(props);
@@ -11,6 +14,10 @@ class CreateNote extends Component {
       body: '',
       noteAdded: false
     };
+  }
+
+  componentDidMount() {
+    this.props.getNotes();
   }
 
   handleInput = e => {
@@ -24,17 +31,13 @@ class CreateNote extends Component {
       title: this.state.title,
       textBody: this.state.body
     };
-    console.log(note);
-    axios
-      .post('https://fe-notes.herokuapp.com/note/create', note)
-      .then(res => {
-        console.log(res);
-        this.setState({ title: '', body: '', noteAdded: true });
-      })
-      .catch(() => alert('Error adding note'));
+    // console.log(note);
+    this.props.createNote(note);
+    this.setState({ title: '', body: '', noteAdded: true });
   };
 
   render() {
+    // console.log('ON CREATE NOTE PAGE');
     if (this.state.noteAdded) {
       this.props.getNotes();
       return <Redirect to="/" />;
@@ -66,4 +69,15 @@ class CreateNote extends Component {
   }
 }
 
-export default CreateNote;
+const mapStateToProps = state => {
+  return {
+    notes: state.notes,
+    fetching: state.fetching,
+    error: state.error
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { getNotes, createNote }
+)(CreateNote);
