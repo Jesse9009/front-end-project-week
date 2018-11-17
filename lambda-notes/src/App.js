@@ -89,7 +89,6 @@ class App extends Component {
             />
           )}
         />
-        {/* <Route path="/edit/:id" component={} /> */}
       </div>
     );
   }
