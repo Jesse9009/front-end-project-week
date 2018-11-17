@@ -37,12 +37,13 @@ class ViewNote extends Component {
 
   handleDelete = e => {
     e.preventDefault();
+    this.props.getNotes();
     this.setState({ toList: true });
     this.props.deleteNote(this.props.match.params.id);
   };
 
   render() {
-    console.log('on view notes ', this.props.notes);
+    // console.log('on view notes ', this.props.notes);
     // console.log(this.props.match.params.id);
     if (this.state.toList) {
       this.props.getNotes();

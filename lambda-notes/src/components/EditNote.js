@@ -16,10 +16,10 @@ class EditNote extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.notes);
+    // console.log(this.props.notes);
     this.props.notes.map(note => {
       if (this.props.match.params.id === note._id) {
-        console.log(note);
+        // console.log(note);
         this.setState({ title: note.title, body: note.textBody });
       }
     });
@@ -37,7 +37,7 @@ class EditNote extends Component {
       title: this.state.title,
       textBody: this.state.body
     };
-    console.log(note);
+    // console.log(note);
     this.setState({ noteEdited: true });
     this.props.editNote(id, note);
   };

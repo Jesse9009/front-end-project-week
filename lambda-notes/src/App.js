@@ -26,7 +26,7 @@ class App extends Component {
   }
 
   render() {
-    console.log('On app.js ', this.props.notes);
+    // console.log('On app.js ', this.props.notes);
     return (
       <div className="App">
         <aside>

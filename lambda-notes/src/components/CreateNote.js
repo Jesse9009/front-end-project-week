@@ -32,8 +32,8 @@ class CreateNote extends Component {
       textBody: this.state.body
     };
     // console.log(note);
-    this.props.createNote(note);
     this.setState({ title: '', body: '', noteAdded: true });
+    this.props.createNote(note);
   };
 
   render() {

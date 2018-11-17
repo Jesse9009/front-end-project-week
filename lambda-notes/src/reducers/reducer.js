@@ -1,12 +1,4 @@
-import {
-  FETCHING,
-  GET_SUCCESS,
-  SUCCESS,
-  CREATED,
-  DELETED,
-  EDITED,
-  FAIL
-} from '../actions/actions';
+import { FETCHING, GET_SUCCESS, SUCCESS, FAIL } from '../actions/actions';
 
 const initialState = {
   notes: [],
@@ -22,10 +14,6 @@ export default (state = initialState, action) => {
       return { ...state, fetching: false, notes: action.payload };
     case SUCCESS:
       return { ...state, fetching: false };
-    // case DELETED:
-    //   return { ...state, fetching: false };
-    // case EDITED:
-    //   return { ...state, fetching: false };
     case FAIL:
       return { ...state, fetching: false, error: action.payload };
     default:
