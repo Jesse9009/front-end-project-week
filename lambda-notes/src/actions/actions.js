@@ -28,6 +28,7 @@ export const getNotes = () => {
 
 export const createNote = note => {
   return dispatch => {
+    console.log('Note being used for POST: ', note);
     axios
       .post('https://fe-notes.herokuapp.com/note/create', note)
       .then(res => {

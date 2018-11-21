@@ -9,10 +9,11 @@ class CreateNote extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tag: [],
+      tags: [],
       title: '',
       body: '',
-      noteAdded: false
+      noteAdded: false,
+      addedTag: ''
     };
   }
 
@@ -28,13 +29,29 @@ class CreateNote extends Component {
   handleSubmit = e => {
     e.preventDefault();
     const note = {
+      tags: this.state.tags,
       title: this.state.title,
       textBody: this.state.body
     };
-    // console.log(note);
-    this.setState({ title: '', body: '', noteAdded: true });
+    console.log(note);
+    this.setState({
+      title: '',
+      body: '',
+      addedTag: '',
+      tags: [],
+      noteAdded: true
+    });
     this.props.createNote(note);
   };
+
+  // addTag = e => {
+  //   e.preventDefault();
+  //   console.log('tag added');
+  //   this.setState({
+  //     tags: [...this.state.tags, this.state.addedTag],
+  //     addedTag: ''
+  //   });
+  // };
 
   render() {
     // console.log('ON CREATE NOTE PAGE');
@@ -62,6 +79,16 @@ class CreateNote extends Component {
             value={this.state.body}
             onChange={this.handleInput}
           />
+          {/* <form>
+            <input
+              placeholder="Add tag"
+              className="inputTitle"
+              value={this.state.addedTag}
+              name="addedTag"
+              onChange={this.handleInput}
+            />
+            <button onClick={this.addTag}>Add Tag</button>
+          </form> */}
           <button>Save</button>
         </form>
       </div>
@@ -71,9 +98,7 @@ class CreateNote extends Component {
 
 const mapStateToProps = state => {
   return {
-    notes: state.notes,
-    fetching: state.fetching,
-    error: state.error
+    notes: state.notes
   };
 };
 
