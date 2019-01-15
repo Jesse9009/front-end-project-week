@@ -26,7 +26,7 @@ class NoteList extends Component {
             // console.log(note);
             const body = this.truncateString(note.textBody, 210);
             return (
-              <Link to={`/view/${note._id}`} key={note._id} className="note">
+              <Link to={`/view/${note.id}`} key={note.id} className="note">
                 <p className="noteTitle">{note.title}</p>
                 <hr />
                 <p className="noteBody">{body}</p>
