@@ -37,7 +37,7 @@ class ViewNote extends Component {
 
   render() {
     // console.log(this.props.notes);
-    console.log(typeof this.props.match.params.id);
+    // console.log(typeof this.props.match.params.id);
     if (this.state.toList) {
       return <Redirect to="/" />;
     }
@@ -48,9 +48,9 @@ class ViewNote extends Component {
           <a onClick={this.toggle}>delete</a>
         </div>
         {this.props.notes.map(note => {
-          console.log(typeof note.id);
+          // console.log(typeof note.id);
           if (this.props.match.params.id === note.id.toString()) {
-            console.log(note.title);
+            // console.log(note.title);
             return (
               <div key={note.id}>
                 <p className="viewNoteTitle">{note.title}</p>

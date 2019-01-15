@@ -25,7 +25,7 @@ class App extends Component {
 
   getNotes = () => {
     axios
-      .get('http://localhost:4040/api/notes')
+      .get('https://ja-notes-server.herokuapp.com/api/notes')
       .then(response => {
         // console.log(response.data);
         this.setState({ notes: response.data });
@@ -38,7 +38,7 @@ class App extends Component {
   deleteNote = id => {
     // console.log(`${id}`, ' deleted');
     axios
-      .delete(`http://localhost:4040/api/notes/${id}`)
+      .delete(`https://ja-notes-server.herokuapp.com/api/notes/${id}`)
       .then(res => {
         // console.log(res);
         this.getNotes();

@@ -26,7 +26,7 @@ class CreateNote extends Component {
     };
     console.log(note);
     axios
-      .post('http://localhost:4040/api/notes', note)
+      .post('https://ja-notes-server.herokuapp.com/api/notes', note)
       .then(res => {
         console.log(res);
         this.setState({ title: '', body: '', noteAdded: true });
